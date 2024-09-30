@@ -26,13 +26,27 @@ def get_tasks():
 
 @app.route('/tasks/<int:id>', methods=['GET'])
 def get_task(id):
-    task = None
     for task in tasks:
         if task.id == id:
             return jsonify(task.to_dict())
     return jsonify({"message" : "Task not found"}), 404
 
+@app.route('/tasks/<int:id>', methods=['PUT'])
+def update_task(id):
+    task = None
+    for t in tasks:
+        if t.id == id:
+            task = t
+    print(task)
+    if task == None:
+        return jsonify({"message" : "Task not found"}), 404
 
+    data = request.get_json()
+    task.title = data['title']
+    task.description = data['description']
+    task.completed = data['completed']
+    print(task)
+    return jsonify({"message" : "Task updated successfully"})
 
 
 if __name__ == '__main__':
