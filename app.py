@@ -1,13 +1,14 @@
-from flask import Flask
-
+from flask import Flask, request
+from models.task import Task
 app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-@app.route('/about')
-def about():
-    return 'About'
+tasks = []
+
+@app.route('/tasks', methods=['POST'])
+def create_task():
+    data = request.get_json()
+    print(data)
+    return "Test"
 
 if __name__ == '__main__':
     app.run(debug=True)
